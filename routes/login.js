@@ -7,6 +7,7 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   // TODO: Реализовать функцию входа в админ панель по email и паролю
+
   res.send('Реализовать функцию входа по email и паролю')
 })
 

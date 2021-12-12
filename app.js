@@ -17,7 +17,6 @@ process.env.NODE_ENV === 'development'
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', mainRouter)
@@ -40,4 +39,4 @@ app.use((err, req, res, next) => {
   res.render('error')
 })
 
-app.listen(3001, () => {})
+app.listen(3000, () => {})
