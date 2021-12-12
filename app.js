@@ -2,11 +2,17 @@ const createError = require('http-errors')
 const express = require('express')
 const path = require('path')
 const logger = require('morgan')
+const session = require('express-session')
 
 const mainRouter = require('./routes/')
 
 const app = express()
 
+const authkey = {
+  mail: 'mikebocharov63@mail.ru',
+  password : '12345',
+  isAdmin: false
+}
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
@@ -18,7 +24,19 @@ process.env.NODE_ENV === 'development'
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
-
+app.use(
+    session({
+      secret: 'loftschool',
+      key: 'sessionkey',
+      cookie: {
+        path: '/',
+        httpOnly: true,
+        maxAge: 10 * 60 * 1000
+      },
+      saveUninitialized: false,
+      resave: false
+    })
+)
 app.use('/', mainRouter)
 
 // catch 404 and forward to error handler
