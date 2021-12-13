@@ -1,11 +1,24 @@
-const express = require('express')
-const router = express.Router()
-const { products, skills } = require('../data.json')
-const nodemailer = require('nodemailer')
-const config = require('../config.json')
+const express = require('express');
+const router = express.Router();
+const skills = require('../model/skills.json');
+const nodemailer = require('nodemailer');
+const config = require('../config.json');
+const nconf = require("nconf");
+const path = require("path");
+const db = function () {
+  return nconf
+      .argv()
+      .env()
+      .file({ file: path.join(__dirname, '../model/data.json') })
+}()
+function init () {
+  return db.get("1");
+}
+const products = init();
 
 router.get('/', (req, res, next) => {
-  res.render('pages/index', { title: 'Main page', products, skills })
+  console.log(products, skills)
+  res.render('pages/index', { title: 'Main page', products, skills });
 })
 
 router.post('/', (req, res, next) => {
@@ -16,7 +29,7 @@ router.post('/', (req, res, next) => {
     return res.json({msg: `${req.body.name}+${req.body.email}+${req.body.message} все поля надо заполнить`, status:'error'});
     //res.json({ msg: 'Все поля нужно заполнить!', status: 'Error' })
   }
-  const transporter = nodemailer.createTransport(config.mail.smtp)
+  const transporter = nodemailer.createTransport(config.mail.smtp);
   const mailOptions = {
     from: `"${req.body.name}" <${req.body.email}>`,
     to: config.mail.smtp.auth.user,
@@ -34,7 +47,7 @@ router.post('/', (req, res, next) => {
         status: 'Error'
       })
     }
-    res.json({ msg: 'Письмо успешно отправлено!', status: 'Ok' })
+    res.json({ msg: 'Письмо успешно отправлено!', status: 'Ok' });
   })
   // res.send('Реализовать функционал отправки письма')
 })

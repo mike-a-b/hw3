@@ -8,11 +8,6 @@ const mainRouter = require('./routes/')
 
 const app = express()
 
-const authkey = {
-  mail: 'mikebocharov63@mail.ru',
-  password : '12345',
-  isAdmin: false
-}
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
