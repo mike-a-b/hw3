@@ -49,6 +49,11 @@
       "src": "public/assets/img/products/etc2.png",
       "name": "234dfsgf",
       "price": "2222"
+    },
+    {
+      "src": "/home/acidburn/loftschool/week1/express-hw34/nodejs-hw34/public/assets/img/products/etc.png",
+      "name": "aaaaaaaaaaaaaaa",
+      "price": "11111111111111111111"
     }
   ]
 }

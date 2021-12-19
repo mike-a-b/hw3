@@ -17,11 +17,10 @@ function init() {
 const products = init()
 
 router.get('/', (req, res, next) => {
-  console.log(req.flash('msgskill'), req.flash('msgfile'))
   if (req.session.isAdmin)
     // подставляем через skills в счетчики
     res.render('pages/admin', { title: 'Admin page', skills, msgskill: req.flash('msgskill')[0],
-      msgfile: req.flash('msgfile') })
+      msgfile: req.flash('msgfile')[0] })
   else res.redirect('/login')
 })
 
@@ -33,8 +32,6 @@ router.post('/skills', (req, res, next) => {
     !req.body.years
   ) {
     req.flash('msgskill', 'все поля должны быть заполнены')
-
-    return next()
   } else {
     //сохранение в БД
     skills[0].number = req.body.age
@@ -79,9 +76,9 @@ router.post('/upload', (req, res, next) => {
       res.redirect('/admin')
     }
 
-    console.log(files.photo.path + ' ' + fields.name)
+    // console.log(files.photo.path + ' ' + fields.name)
     console.log(JSON.stringify({ fields, files }))
-    const fileName = path.join('./assets/img', files.photo.originalFilename)
+    const fileName = path.join(__dirname, '../public/assets/img/products', files.photo.originalFilename)
     console.log(fileName)
     fs.rename(files.photo.filepath, fileName, function (err) {
       if (err) {
@@ -103,13 +100,5 @@ router.post('/upload', (req, res, next) => {
     })
   })
 })
-
-// const validation = (fields, files) => {
-//   return res.render('pages/admin', {
-//     title: 'Admin page',
-//     skills,
-//     msgfile: 'ОК',
-//   })
-// }
 
 module.exports = router

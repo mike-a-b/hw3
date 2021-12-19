@@ -18,7 +18,7 @@ function init() {
 const products = init()
 
 router.get('/', (req, res, next) => {
-  console.log(products, skills,req.flash('mail')[0])
+  // console.log(products, skills,req.flash('mail')[0])
   res.render('pages/index', { title: 'Main page', products, skills, msgemail: req.flash('mail')[0] })
 })
 
@@ -43,10 +43,13 @@ router.post('/', (req, res, next) => {
     transporter.sendMail(mailOptions, function (error, info) {
       // если есть ошибки при отправке - сообщаем об этом
       if (error) {
-        throw new Error(`При отправке письма произошла ошибка!: ${error}`)
+        req.flash('mail', `При отправке письма произошла ошибка!: ${error}`)
+        res.redirect('/#mail')
+      } else {
+        req.flash('mail', 'Письмо успешно отправлено!')
+        res.redirect('/#mail')
       }
     })
-    req.flash('mail', 'Письмо успешно отправлено!')
   }
   catch (error) {
     req.flash('mail', error.message)
